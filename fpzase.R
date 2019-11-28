@@ -1,3 +1,5 @@
+# Author: Rydberg Supo Escalante
+
 ######################################################################
 ## Eliminate covariates with NA observations or variance equal to 0 ##
 ######################################################################
