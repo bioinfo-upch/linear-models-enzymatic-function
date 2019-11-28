@@ -1,4 +1,5 @@
 
+Author: Rydberg Supo Escalante
 
 # File: fpzase.R 
 
