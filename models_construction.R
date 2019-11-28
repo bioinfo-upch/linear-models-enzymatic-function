@@ -1,3 +1,5 @@
+# Author: Rydberg Supo Escalante
+
 ########################
 ## Charging libraries ##
 ########################
