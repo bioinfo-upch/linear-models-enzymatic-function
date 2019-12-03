@@ -7,6 +7,7 @@ For the following analysis you will need to run the scripts provided in a Linux 
 ## I.	Normal mode analysis
 
 File: anm
+
 Input: A PDB file with just information about the protein atoms coordinates and an END line as the final line.
 
 1.	Add the file “anm” to the PATH environmental variable in order to execute it from any directory. Otherwise, you could make it executable in your current working directory and type “./anm” in the command line.
