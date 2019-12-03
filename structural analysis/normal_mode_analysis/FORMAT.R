@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# Author: Basilio Cieza
 
 ##########################
 ## Parameters to change ##
@@ -14,7 +15,7 @@ options("scipen"=100, "digits"=4)
 #############################
 
 tab <- as.matrix(t(read.table("eigenvector.txt",header= F, sep="")))
-basilio <- matrix(c(0,0,0),ncol = 3)
+eigen_vectors <- matrix(c(0,0,0),ncol = 3)
 i <- c(-2,-1,0)
 k <- 1
 while(any(i <= nrow(tab))){
@@ -22,12 +23,12 @@ while(any(i <= nrow(tab))){
   X <- t(as.matrix(c(tab[i[1]],tab[i[2]],tab[i[3]])))
   rownames(X) <- paste('X.',k,sep='')
   k <- k + 1
-  basilio <- rbind(basilio,X)
+  eigen_vectors <- rbind(eigen_vectors,X)
 }
-basilio <-round(basilio[-c(1,nrow(basilio)),],digits = 4)
+eigen_vectors <-round(eigen_vectors[-c(1,nrow(eigen_vectors)),],digits = 4)
 nfirst <- (mfirst-1)*nres + 1
 nend <- mend*nres
-mod_self <- data.frame(round(basilio[nfirst:nend,1:3],digits = 4))
+mod_self <- data.frame(round(eigen_vectors[nfirst:nend,1:3],digits = 4))
 write.table(format(mod_self, digits=4), file= "vector.output.txt")
 
 ############################
