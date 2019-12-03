@@ -50,4 +50,9 @@ Inputs: Text files with information of eigenvalues and eigenvector from normal m
 
 ## IV.	Commentaries about the code
 
-*The programs "anm" and "fluctuations" belong to the group of Dr. L. Mario Amzel*. The first one performs the normal mode analysis per se, and the second one calculates the fluctuations per residue using as inputs the eigenvalues and eigenvectors calculated from the normal mode analysis. Nevertheless, in order to generate the inputs for the program “fluctuation”, a bash script called “script.sh” takes the files “eigenvectors_modif.TXT” and “eigenvalues_modif.txt” produced by the program “anm”, and gives them the needed format to be the inputs for the “fluctuation” program. The script “script.sh” also calls the scripts “FORMAT.R” and “editing.py” for its purpose.
+**The programs "anm" and "fluctuations" belong to the group of Dr. L. Mario Amzel**. The first one performs the normal mode analysis per se, and the second one calculates the fluctuations per residue using as inputs the eigenvalues and eigenvectors calculated from the normal mode analysis. Nevertheless, in order to generate the inputs for the program “fluctuation”, a bash script called “script.sh” takes the files “eigenvectors_modif.TXT” and “eigenvalues_modif.txt” produced by the program “anm”, and gives them the needed format to be the inputs for the “fluctuation” program. The script “script.sh” also calls the scripts “FORMAT.R” and “editing.py” for its purpose.
+
+# Physicochemical descriptors
+
+# Geometrical descriptors
+
