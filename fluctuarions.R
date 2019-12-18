@@ -127,37 +127,3 @@ for(i in colnames(data.nm.g[-1])){
 
 test.table <-  cbind(position,conf.int.lower,conf.int.upper,p.values,adj.p.values)
 write.table(test.table,'statistical_test_results.csv',sep=',',quote = F, row.names = F)
-
-##################################
-## Generalized statistical test ##
-##################################
-
-y <- c()
-x <- c()
-for(i in 1:(length(data.nm.k[,1])-5)){
-  cutoff <- sort(data.nm.k[,1], decreasing = T)[i]
-  data.nm.grouped <- mutate(.data=data.nm.k,Kcat=as.factor(ifelse(data.nm.k[,1]>=cutoff,'S','R')))
-  colnames(data.nm.grouped) <- c('Kcat',paste('x',1:185,sep=''))
-  p.values <- c()
-  for(j in colnames(data.nm.grouped[-1])){
-    p.values <- c(p.values,wilcox.test(as.formula(paste(j,"~Kcat",sep="")),
-                        alternative = 'two.sided',data.nm.grouped)$p.value)
-  }
-  positions <- which(p.values < 0.05)
-  y <- c(y,rep(table(data.nm.grouped[1])[1],length(positions)))
-  x <- c(x,positions)
-}
-
-scale <- round(sort(data.nm.k[,1])[c(8,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35)],2)
-scale <- as.character(scale)
-data.toplot = data.frame(N_resistant=y,position=x)
-data.toplot[,1] <- as.factor(data.toplot[,1])
-levels(data.toplot[,1]) <- 1:100
-data.toplot[,1] <- as.integer(data.toplot[,1])
-data.toplot[,2] <- as.factor(data.toplot[,2])
-#levels(data.toplot[,2]) <- as.character(1:185)
-ggplot(data.toplot,aes(x = N_resistant, y=position )) + geom_tile(color='black', fill='grey') +
-  scale_x_continuous(breaks=1:26, labels = c(7,9,11:34),
-                     sec.axis = dup_axis(labels = scale,name = '%kcat cutoff'))
-#+  scale_y_continuous(1:185)
-
