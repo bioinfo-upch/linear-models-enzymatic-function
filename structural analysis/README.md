@@ -1,6 +1,6 @@
 # Modeling of mutated structures
 
-# Stability descriptors
+# Stability descriptors: Normal Mode Analysis (NMA)
 
 For the following analysis you will need to run the scripts provided in a Linux OS. You need also to have installed python, R, and FORTRAN
 
@@ -53,6 +53,34 @@ Inputs: Text files with information of eigenvalues and eigenvector from normal m
 
 **The programs "anm" and "fluctuations" belong to the group of Dr. L. Mario Amzel**. The first one performs the normal mode analysis per se, and the second one calculates the fluctuations per residue using as inputs the eigenvalues and eigenvectors calculated from the normal mode analysis. Nevertheless, in order to generate the inputs for the program “fluctuation”, a bash script called “script.sh” takes the files “eigenvectors_modif.TXT” and “eigenvalues_modif.txt” produced by the program “anm”, and gives them the needed format to be the inputs for the “fluctuation” program. The script “script.sh” also calls the scripts “FORMAT.R” and “editing.py” for its purpose.
 
+# Stability descriptors: Molecular Dynamics (MD)
+
+All script for MD simulations are provided. 
+
+ -	ions.mdp
+  
+ 	Used as input into grompp to generate ions.tpr.
+ 
+ - 	minim.mdp
+ 
+ 	Used as input into grompp to generate em.tpr and run energy minimization.
+ 
+ -	nvt.mdp
+ 	
+	nvt ensemble to equilibrate temperature (310.15 K). 	
+ 
+ -	npt.mdp
+ 
+ 	npt ensemble to equilibrate pressure (1 bar).
+	 
+ -	md.mdp
+ 
+ 	Run production MD for data collection at temperature and pressure constant.
+ 
+ -	run.sh
+ 	
+	Run all the procedures to perfom MD.
+ 
 # Physicochemical descriptors
 
 # Geometrical descriptors
