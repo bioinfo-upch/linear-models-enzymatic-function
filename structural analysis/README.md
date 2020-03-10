@@ -81,6 +81,10 @@ All script for MD simulations are provided.
  	
 	Run all the procedures to perfom MD.
  
+ All input and output files are available on Google Drive:
+ 
+ https://drive.google.com/drive/folders/1MSriTiqPQCyTM1S25DEQw7XRXR_1Huj9?usp=sharing
+ 
 # Physicochemical descriptors
 
 # Geometrical descriptors
