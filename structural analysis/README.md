@@ -89,3 +89,11 @@ All script for MD simulations are provided.
 
 # Geometrical descriptors
 
+Geometrical desriptors are distances between points the following points of interest including
+1. Alpha carbon coordinates for each residue
+2. Baricenter of the active site (D8, K96, C138) and the metal coordination site (D49, H51, H71)
+3. Point P: Point of projection of each alpha carbon on the plane of the AS or MCS
+4. Point I: Point of intersection between the resulting vector of each position with respect to the alpha carbon and the plane of the AS or MCS.
+5. Point T: Baricenter of the metal coordination site (D49, H51, H57, H71)
+
+For the following analysis you will need to run the scripts provided in a Linux OS. You need also to have installed python, R, and FORTRAN
