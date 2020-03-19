@@ -15,8 +15,6 @@ mutants = c("WT","A102V","A171T","A46V","C14G","D12A","D12G","D136G","D49N","F58
             "P62L","P62R","Q10P","R29P","T135P","T142A","T160K","T76P","V125F","V139A",
             "V180F","W119L","Y34D","Y64D")
 
-mutants = c('A102V','A46V')
-
 # Name of positions
 variables = as.character(1:185)
 
