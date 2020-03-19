@@ -93,9 +93,9 @@ Geometrical desriptors are distances (in angstroms) between points the following
 
 1. Alpha carbon coordinates for each residue.
 2. Baricenter of the active site (AS - D8, K96, C138) and the metal coordination site (MCS - D49, H51, H71).
-3. Point P: Point of projection of each alpha carbon on the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
-4. Point I: Point of intersection between the resultant vector of each alpha carbon and the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
-5. Point T: Baricenter of the metal coordination site (D49, H51, H57, H71).
+3. P point: Point of projection of each alpha carbon on the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
+4. I point: Point of intersection between the resultant vector of each alpha carbon and the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
+5. T point: Baricenter of the metal coordination site (D49, H51, H57, H71).
 
 ## I.	Distances calculation
 
@@ -114,9 +114,9 @@ Outputs:
 -	distance_to_aa_138.csv: Distance between the alpha carbon of each residue and the alpha carbon of Cys138 (AS).
 -	distance_B_C_as.csv: Distance between the alpha carbon of each residue and the barycenter of the AS (D8, K96, C138).
 -	distance_B_C_mcs.csv: Distance between the alpha carbon of each residue and the barycenter of the MCS (D49, H51, H71).
--	distance_B_I_as.csv: Distance between the barycenter of AS and the point I with respect to the AS.
--	distance_B_I_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the point I with respect to the MCS (excluding H57).
--	distance_B_P_as.csv: Distance between the barycenter of AS and the point P with respect to the AS.
+-	distance_B_I_as.csv: Distance between the barycenter of AS and the I point with respect to the AS.
+-	distance_B_I_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the I point with respect to the MCS (excluding H57).
+-	distance_B_P_as.csv: Distance between the barycenter of AS and the P point with respect to the AS.
 -	distance_B_P_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the P point with respect to the MCS (excluding H57).
 -	distance_I_C_as.csv: Distance between the I point with respect to the AS and the alpha carbon of each residue.
 -	distance_I_C_mcs.csv: Distance between the I point with respect to the MCS (excluding H57) and the alpha carbon of each residue.
