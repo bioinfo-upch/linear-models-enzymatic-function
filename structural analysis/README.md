@@ -114,21 +114,20 @@ Outputs:
 -	distance_to_aa_138.csv: Distance between the alpha carbon of each residue and the alpha carbon of Cys138 (AS).
 -	distance_B_C_as.csv: Distance between the alpha carbon of each residue and the barycenter of the AS (D8, K96, C138).
 -	distance_B_C_mcs.csv: Distance between the alpha carbon of each residue and the barycenter of the MCS (D49, H51, H71).
--	distance_B_I_as.csv: Distance between the barycenter of AS (D8, K96, C138) and the point I.
--	distance_B_I_mcs.csv: Distance between the barycenter of MCS (D49, H51, H71) and the point I.
--	distance_B_P_as.csv: Distance between the barycenter of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of AS
--	distance_B_P_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
--	distance_I_C_as.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the alpha carbon of each residue
--	distance_I_C_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the alpha carbon of each residue
--	distance_I_P_as.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of AS
--	distance_I_P_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
--	distance_P_C_as.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of AS and the alpha carbon of each residue
--	distance_P_C_mcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57) and the alpha carbon of each residue
--	distance_C_T_mcs.csv: Distance between the alpha carbon of each residue and the barycenter of MCS (including H57)
--	distance_I_T_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the barycenter of MCS (including H57)
--	distance_Ias_Imcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) 
--	distance_P_T_mcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57) and the the barycenter of MCS (including H57)
--	distance_Pas_Pmcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
-
--	geometrical_descriptors.csv
+-	distance_B_I_as.csv: Distance between the barycenter of AS and the point I with respect to the AS.
+-	distance_B_I_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the point I with respect to the MCS (excluding H57).
+-	distance_B_P_as.csv: Distance between the barycenter of AS and the point P with respect to the AS.
+-	distance_B_P_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the P point with respect to the MCS (excluding H57).
+-	distance_I_C_as.csv: Distance between the I point with respect to the AS and the alpha carbon of each residue.
+-	distance_I_C_mcs.csv: Distance between the I point with respect to the MCS (excluding H57) and the alpha carbon of each residue.
+-	distance_I_P_as.csv: Distance between the I point and the P point with respect to the AS.
+-	distance_I_P_mcs.csv: Distance between the I point and the P point with respect to the MCS (excluding H57).
+-	distance_P_C_as.csv: Distance between the P point with respect to the AS and the alpha carbon of each residue.
+-	distance_P_C_mcs.csv: Distance between the P point with respect to the MCS (excluding H57) and the alpha carbon of each residue.
+-	distance_C_T_mcs.csv: Distance between the barycenter of the MCS (including H57) and the alpha carbon of each residue.
+-	distance_I_T_mcs.csv: Distance between the I point with respect to the MCS (excluding H57) and the barycenter of the MCS (including H57).
+-	distance_Ias_Imcs.csv: Distance between the I point with respect to the AS and the I point with respect to the MCS (excluding H57). 
+-	distance_P_T_mcs.csv: Distance between the P point with respect to the MCS (excluding H57) and the barycenter of the MCS (including H57).
+-	distance_Pas_Pmcs.csv: Distance between the P point with respect to the AS and the P point with respect to the MCS (excluding H57).
+-	geometrical_descriptors.csv: Dataset formed by merging the columns of the previous outputs in the listed order.
 
