@@ -1,5 +1,5 @@
 ---
-title: "data_profiles"
+title: "Profiles and positions analysis"
 author: "Rydberg"
 date: "25 de febrero de 2020"
 output: html_document
@@ -31,12 +31,8 @@ colnames(data_ep) <-1:185
 data_md_b <- read.table('rmsf_backbone.csv ', sep=';', header = T, row.names = 1 )
 colnames(data_md_b) <-1:185
 
-# RMSF protein dataset
-# data_md_p <- read.table('rmsf_protein.csv ', sep=';', header = T, row.names = 1 )
-# colnames(data_md_p) <-1:185
-
 # RMSF kinetic parameters dataset
-data_k <- read.table('data_kinetics.csv ', sep=';', header = T, row.names = 1 )
+data_k <- read.table('kinetic_parameters.csv ', sep=';', header = T, row.names = 1 )
 
 ```
 
@@ -58,9 +54,6 @@ subdata_ep <- cbind(subdata_ep,Position)
 subdata_md_b <- as.data.frame(t(data_md_b))
 subdata_md_b <- cbind(subdata_md_b,Position)
 
-# Transpose RMSF protein dataset
-# subdata_md_p <- as.data.frame(t(data_md_p))
-# subdata_md_p <- cbind(subdata_md_p,Position)
 ```
 
 Convert wide to long datasets by gathering the measurements by positions and using the name of the mutation as a key. Exclude position from the gathering to conserve it. 
@@ -77,8 +70,6 @@ subdata_ep <- gather(subdata_ep,key='Mutation',value='DEP',-Position)
 # Gather RMSF backbone dataset and convert it to long format
 subdata_md_b <- gather(subdata_md_b,key='Mutation',value='RMSF',-Position)
 
-# Gather RMSF protein dataset and convert it to long format
-# subdata_md_p <- gather(subdata_md_p,key='Mutation',value='RMSF',-Position)
 ```
 
 Create the ggplots objects
@@ -119,14 +110,6 @@ g3 <- ggplot(subdata_md_b,mapping = aes(x=Position,y=RMSF,group=Mutation)) +
   scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
   ylab('RMSF backbone (nm)')
 
-# # Plot 4: RMSF protein
-# g4 <- ggplot(subdata_md_p,mapping = aes(x=Position,y=RMSF,group=Mutation)) + 
-#   geom_line(size=0.7, color=alpha('grey',0.7)) + 
-#   geom_line(size=0.7, aes(color=Mutation),
-#             data=subdata_md_p[subdata_md_p['Mutation']=='WT',]) +
-#   theme_plots +
-#   scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
-#   ylab('RMSF total (nm)')
 ```
 
 Save the figures as figure 1
@@ -144,14 +127,13 @@ Bind each dataset with the kinetic data
 ```{r}
 # Bind fluctuation dataset to kcat data
 data_nma_k <- cbind(data_k[1],data_nma)
+
 # Bind electrostatic potential dataset to kcat data
 data_ep_k <- cbind(data_k[1],data_ep)
 
 # Bind RMSF backbone dataset to kcat data
 data_md_b_k <- cbind(data_k[1],data_md_b)
 
-# Bind RMSF protein dataset to kcat data
-# data_md_p_k <- cbind(data_k[1],data_md_p)
 ```
 
 Create a new variable that indicates if relative kcat is greater than 50
@@ -170,9 +152,6 @@ data_ep_g <- mutate(.data=data_ep_k, Kcat = cutoff)
 
 # Add the kcat cutoff variable to kinetic RMSF backbone dataset
 data_md_b_g <- mutate(.data=data_md_b_k, Kcat = cutoff)
-
-# Add the kcat cutoff variable to kinetic RMSF protein dataset
-# data_md_p_g <- mutate(.data=data_md_p_k, Kcat = cutoff)
 ```
 
 Defining the function to create the bloxplot of the grouped measurements in the flap region
@@ -222,9 +201,6 @@ g2 <- plot_aa(data_ep_g, i=51, f=71, d=1, 'Difference in Electrostatic Potential
 # Boxplot for RMSF backbone
 g3 <- plot_aa(data_md_b_g, i=51, f=71, d=1, 'RMSF backbone (nm)')
 
-# Boxplot for RMSF protein
-# g4 <- plot_aa(data_md_p_g, i=1, f=185, d=1, 'RMSF protein (nm)')
-
 ```
 
 Save the figures as figure 2
@@ -235,7 +211,7 @@ ggsave('fig2.tiff',grob,width = 12, height = 18, dpi = 300)
 ```
 
 
-## Supplementary figures (COMMENT)
+## Supplementary figures
 
 Boxplot for the whole fluctuation profile for each group of PZAses 
 
@@ -245,11 +221,15 @@ kcat_cutoff = 50
 cutoff=as.factor(ifelse(data_k[,1]>=kcat_cutoff, paste('\u2265',kcat_cutoff, sep=''),
                              paste('< ',kcat_cutoff, sep='')))
 
+# Create a list with the dataframes to evaluate and another list with the y-axis titles for each subplot.
 L = list(data_nma_k, data_ep_k, data_md_b_k)
 D = list('Fluctuations (nm)', 'Difference in Electrostatic Potentials (mV)', 'RMSF backbone (nm)')
+
+# Create a figure lists
 figs_s = list()
 figs_r = list()
 
+# Generate individual figures
 for(i in 1:length(L)){
   
   label = D[[i]]
@@ -294,6 +274,7 @@ for(i in 1:length(L)){
   figs_r[[i]] <- g2
 }
 
+# Create and save the figure
 grob <- arrangeGrob(figs_s[[1]], figs_r[[1]], figs_s[[3]], figs_r[[3]], figs_s[[2]], figs_r[[2]])
 ggsave('figsup1.tiff' ,grob,width = 16, height = 17, dpi = 300)
   
@@ -301,21 +282,27 @@ ggsave('figsup1.tiff' ,grob,width = 16, height = 17, dpi = 300)
 
 ## Statistical tests
 
+Perform a non-parametric statistical test for position between the two groups of PZAses for fluctuations, RMSFs, and electrostatic potentials datasets.
+
 ```{r, warning=FALSE,message=FALSE, error=FALSE }
 
-PZAse <- c('MRALIIVDVQNDFCEGGSLAVTGGAALARAISDYLAEAADYHHVVATKDFHIDPGDHFSGTPDYSSSWPPHCVSGTPGADFHPSLDTSAIEAVFYKGAYTGAYSGFEGVDENGTPLLNWLRQRGVDEVDVVGIATDHCVRQTAEDAVRNGLATRVLVDLTAGVSADTTVAALEEMRTASVELVCS')
+# Identity of each residue in PZAse
+PZAse <-c('MRALIIVDVQNDFCEGGSLAVTGGAALARAISDYLAEAADYHHVVATKDFHIDPGDHFSGTPDYSSSWPPHCVSGTPGADFHPSLDTSAIEAVFYKGAYTGAYSGFEGVDENGTPLLNWLRQRGVDEVDVVGIATDHCVRQTAEDAVRNGLATRVLVDLTAGVSADTTVAALEEMRTASVELVCS')
 PZAse <- paste(strsplit(PZAse,'')[[1]],1:185,sep='')
 
+# Name dataframes
 colnames(data_nma_g) <- c('Kcat',paste('x',1:185,sep=''))
 colnames(data_ep_g) <- c('Kcat',paste('x',1:185,sep=''))
 colnames(data_md_b_g) <- c('Kcat',paste('x',1:185,sep=''))
-#colnames(data_md_p_g) <- c('Kcat',paste('x',1:185,sep=''))
 
+# Define a list for each dataset to evaluate and a list for the name of the csv with the results.
 L = list(data_nma_g, data_ep_g, data_md_b_g)
 N = list('Test_nma.csv','Test_ep.csv','Test_md_b.csv')
 
+# Iterate and perform the non-parametric test for each dataset
 for(n in 1:length(L)){
   
+  # Select the dataset and create storing variables
   dataset <- L[[n]]
   dataset[-1] <- dataset[-1]
   position <- c()
@@ -323,6 +310,7 @@ for(n in 1:length(L)){
   conf.int.lower <- c()
   conf.int.upper <- c()
 
+  # Actually perform the statistical test, record intervals and p-values
   for(i in colnames(dataset[-1])){
     test <- wilcox.test(as.formula(paste(i,"~Kcat",sep="")),
                         alternative = 'two.sided',dataset,conf.int=T)
@@ -332,16 +320,17 @@ for(n in 1:length(L)){
     p.values <- c(p.values,test$p.value)
   }
   
+  # Calculate adjusted p-balues
   adj.p.values <- p.adjust(p.values, method ='BH')
+  
+  # Create and save the csv files with the results
   test.table <-  cbind(position,conf.int.lower,conf.int.upper,p.values,adj.p.values)
   write.table(test.table,N[[n]],sep=',',quote = F, row.names = F)
 
+  # Print positions that are called significant with and without multiple testing correction
   print(c(N[[n]],PZAse[as.numeric(test.table[,'p.values'])<0.05]))
   print(c(N[[n]],PZAse[as.numeric(test.table[,'adj.p.values'<0.05])],' adjusted'))
 
 }
 
-
-
 ```
-
