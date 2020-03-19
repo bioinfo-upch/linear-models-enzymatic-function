@@ -15,7 +15,7 @@ Input: A PDB file with just information about the protein atoms coordinates and 
 3.	Enter the number of the first residue: 1
 4.	Enter the cutoff: 5
  
-	Outputs: 
+Outputs: 
 -	HESSIAN_modif.txt
 -	eigenvectors_modif.TXT
 -	flucxyz_modif.txt
@@ -46,7 +46,7 @@ Inputs: Text files with information of eigenvalues and eigenvector from normal m
 4.	Enter name of vector file: eigenvector.txt 
 5.	Enter name of output file: ».txt
  
-	Outputs: 
+Outputs: 
 -	*.txt (you can specify the name, as shown above).
 
 ## IV.	Commentaries about the code
@@ -89,12 +89,12 @@ All script for MD simulations are provided.
 
 # Geometrical descriptors
 
-Geometrical desriptors are distances between points the following points of interest including:
+Geometrical desriptors are distances (in angstroms) between points the following points of interest including:
 
 1. Alpha carbon coordinates for each residue.
 2. Baricenter of the active site (AS - D8, K96, C138) and the metal coordination site (MCS - D49, H51, H71).
 3. Point P: Point of projection of each alpha carbon on the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
-4. Point I: Point of intersection between the resulting vector of each alpha carbon and the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
+4. Point I: Point of intersection between the resultant vector of each alpha carbon and the plane formed by the AS (D8, K96, C138) or MCS (D49, H51, H71).
 5. Point T: Baricenter of the metal coordination site (D49, H51, H57, H71).
 
 ## I.	Distances calculation
@@ -104,10 +104,31 @@ File: geometrical_analysis.R
 Input: A character vector containing the name (or the path) of all the PDBs to analyze.
  
 Outputs: 
--	HESSIAN_modif.txt
--	eigenvectors_modif.TXT
--	flucxyz_modif.txt
--	eigenvalues_modif.txt
--	centers_modif.txt
--	beta_modif.txt
+
+-	distance_to_aa_8.csv: Distance between the alpha carbon of each residue and the alpha carbon of Asp8 (AS).
+-	distance_to_aa_49.csv: Distance between the alpha carbon of each residue and the alpha carbon of Asp49 (MCS).
+-	distance_to_aa_51.csv: Distance between the alpha carbon of each residue and the alpha carbon of His51 (MCS).
+-	distance_to_aa_57.csv: Distance between the alpha carbon of each residue and the alpha carbon of His57 (MCS).
+-	distance_to_aa_71.csv: Distance between the alpha carbon of each residue and the alpha carbon of His71 (MCS).
+-	distance_to_aa_96.csv: Distance between the alpha carbon of each residue and the alpha carbon of Lys96 (AS).
+-	distance_to_aa_138.csv: Distance between the alpha carbon of each residue and the alpha carbon of Cys138 (AS).
+-	distance_B_C_as.csv: Distance between the alpha carbon of each residue and the barycenter of the AS (D8, K96, C138).
+-	distance_B_C_mcs.csv: Distance between the alpha carbon of each residue and the barycenter of the MCS (D49, H51, H71).
+-	distance_B_I_as.csv: Distance between the barycenter of AS (D8, K96, C138) and the point I.
+-	distance_B_I_mcs.csv: Distance between the barycenter of MCS (D49, H51, H71) and the point I.
+-	distance_B_P_as.csv: Distance between the barycenter of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of AS
+-	distance_B_P_mcs.csv: Distance between the barycenter of MCS (excluding H57) and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
+-	distance_I_C_as.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the alpha carbon of each residue
+-	distance_I_C_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the alpha carbon of each residue
+-	distance_I_P_as.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of AS
+-	distance_I_P_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
+-	distance_P_C_as.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of AS and the alpha carbon of each residue
+-	distance_P_C_mcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57) and the alpha carbon of each residue
+-	distance_C_T_mcs.csv: Distance between the alpha carbon of each residue and the barycenter of MCS (including H57)
+-	distance_I_T_mcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) and the barycenter of MCS (including H57)
+-	distance_Ias_Imcs.csv: Distance between the intersection of the resultant vector of each residue to the plane formed by the triad of AS and the intersection of the resultant vector of each residue to the plane formed by the triad of MCS (excluding H57) 
+-	distance_P_T_mcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57) and the the barycenter of MCS (including H57)
+-	distance_Pas_Pmcs.csv: Distance between the projection of the alpha carbon of each residue to the plane formed by the triad of AS and the projection of the alpha carbon of each residue to the plane formed by the triad of MCS (excluding H57)
+
+-	geometrical_descriptors.csv
 
