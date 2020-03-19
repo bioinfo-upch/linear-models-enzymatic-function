@@ -1,3 +1,5 @@
+ Authors: Eduardo Gushiken & Rydberg Supo Escalante
+
 ####################
 ## Load libraries ##
 ####################
