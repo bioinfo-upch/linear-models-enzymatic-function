@@ -207,7 +207,7 @@ P_mcs <- map2(coordinates,map(mcs_n[1:3],function(n){n*mcs_s}),~.x+.y)
 # variables: Position names
 # name: tag to include in the name of the output
 
-distance = function(list1, list2, mutants, variables, name){
+distance <- function(list1, list2, mutants, variables, name){
   
   # Prepare datasets
   list1 <- ifelse(sapply(list1, length)==185, list1, map(list1,as_vector))
@@ -240,30 +240,30 @@ distance = function(list1, list2, mutants, variables, name){
 
 # Use the distace function to calculate distances involving the lists baricenter_3_as, 
 # baricenter_3_mcs, baricenter_4_mcs, coordinates, I_mcs, I_as, P_mcs, P_as
-D8 = distance(coordinates,map(coordinates,select,8),mutants,variables,'to_aa_8')
-D49 = distance(coordinates,map(coordinates,select,49),mutants,variables,'to_aa_49')
-H51 = distance(coordinates,map(coordinates,select,51),mutants,variables,'to_aa_51')
-H57 = distance(coordinates,map(coordinates,select,57),mutants,variables,'to_aa_57')
-H71 = distance(coordinates,map(coordinates,select,71),mutants,variables,'to_aa_71')
-K96 = distance(coordinates,map(coordinates,select,96),mutants,variables,'to_aa_96')
-C138 = distance(coordinates,map(coordinates,select,138),mutants,variables,'to_aa_138')
+D8 <- distance(coordinates,map(coordinates,select,8),mutants,variables,'to_aa_8')
+D49 <- distance(coordinates,map(coordinates,select,49),mutants,variables,'to_aa_49')
+H51 <- distance(coordinates,map(coordinates,select,51),mutants,variables,'to_aa_51')
+H57 <- distance(coordinates,map(coordinates,select,57),mutants,variables,'to_aa_57')
+H71 <- distance(coordinates,map(coordinates,select,71),mutants,variables,'to_aa_71')
+K96 <- distance(coordinates,map(coordinates,select,96),mutants,variables,'to_aa_96')
+C138 <- distance(coordinates,map(coordinates,select,138),mutants,variables,'to_aa_138')
 B_C_as <- distance(coordinates,baricenter_3_as,mutants,variables,'B_C_as')
 B_C_mcs <- distance(coordinates,baricenter_3_mcs,mutants,variables,'B_C_mcs')
-B_I_as  = distance(I_as, baricenter_3_as,mutants,variables,"B_I_as")
-B_I_mcs = distance(I_mcs,baricenter_3_mcs,mutants,variables,"B_I_mcs")
-B_P_as  = distance(baricenter_3_as, P_as,mutants,variables,"B_P_as")
-B_P_mcs = distance(baricenter_3_mcs, P_mcs,mutants,variables,"B_P_mcs")
-I_C_as  = distance(coordinates,I_as,mutants,variables,"I_C_as")
-I_C_mcs = distance(coordinates,I_mcs,mutants,variables,"I_C_mcs")
-I_P_as  = distance(P_as,I_as, mutants,variables,"I_P_as")
-I_P_mcs = distance(P_mcs,I_mcs,mutants,variables,"I_P_mcs")
-P_C_as  = distance(P_as,coordinates,mutants,variables,"P_C_as")
-P_C_mcs = distance(P_mcs,coordinates,mutants,variables,"P_C_mcs")
-C_T_mcs = distance(coordinates,baricenter_4_mcs,mutants,variables,"C_T_mcs")
-I_T_mcs = distance(I_mcs,baricenter_4_mcs, mutants,variables,"I_T_mcs")
-P_T_mcs = distance(P_mcs,baricenter_4_mcs, mutants,variables,"P_T_mcs")
-Ias_Imcs = distance(I_mcs, I_as, mutants,variables,"Ias_Imcs")
-Pas_Pmcs = distance(P_mcs,P_as,mutants,variables,"Pas_Pmcs")
+B_I_as  <- distance(I_as, baricenter_3_as,mutants,variables,"B_I_as")
+B_I_mcs <- distance(I_mcs,baricenter_3_mcs,mutants,variables,"B_I_mcs")
+B_P_as  <- distance(baricenter_3_as, P_as,mutants,variables,"B_P_as")
+B_P_mcs <- distance(baricenter_3_mcs, P_mcs,mutants,variables,"B_P_mcs")
+I_C_as  <- distance(coordinates,I_as,mutants,variables,"I_C_as")
+I_C_mcs <- distance(coordinates,I_mcs,mutants,variables,"I_C_mcs")
+I_P_as  <- distance(P_as,I_as, mutants,variables,"I_P_as")
+I_P_mcs <- distance(P_mcs,I_mcs,mutants,variables,"I_P_mcs")
+P_C_as  <- distance(P_as,coordinates,mutants,variables,"P_C_as")
+P_C_mcs <- distance(P_mcs,coordinates,mutants,variables,"P_C_mcs")
+C_T_mcs <- distance(coordinates,baricenter_4_mcs,mutants,variables,"C_T_mcs")
+I_T_mcs <- distance(I_mcs,baricenter_4_mcs, mutants,variables,"I_T_mcs")
+P_T_mcs <- distance(P_mcs,baricenter_4_mcs, mutants,variables,"P_T_mcs")
+Ias_Imcs <- distance(I_mcs, I_as, mutants,variables,"Ias_Imcs")
+Pas_Pmcs <- distance(P_mcs,P_as,mutants,variables,"Pas_Pmcs")
 
 # Create a combined dataset gathering all the information
 data <- cbind(D8,D49,H51,H57,H71,K96,C138,B_C_as,B_C_mcs,B_I_as,B_I_mcs,B_P_as,B_P_mcs,I_C_as,
