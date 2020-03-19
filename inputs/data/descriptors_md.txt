@@ -4069,7 +4069,6 @@ C_T (MCS) Leu 182
 C_T (MCS) Val 183
 C_T (MCS) Cys 184
 C_T (MCS) Ser 185
-B_T (MCS)
 I_T (MCS) Met 1
 I_T (MCS) Arg 2
 I_T (MCS) Ala 3
@@ -4440,7 +4439,6 @@ P_T (MCS) Leu 182
 P_T (MCS) Val 183
 P_T (MCS) Cys 184
 P_T (MCS) Ser 185
-Bas_Bmcs
 Ias_Imcs Met 1
 Ias_Imcs Arg 2
 Ias_Imcs Ala 3
