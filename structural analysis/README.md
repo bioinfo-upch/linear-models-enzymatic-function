@@ -1,5 +1,3 @@
-# Modeling of mutated structures
-
 # Stability descriptors: Normal Mode Analysis (NMA)
 
 For the following analysis you will need to run the scripts provided in a Linux OS. You need also to have installed python, R, and FORTRAN
@@ -57,29 +55,13 @@ Outputs:
 
 All script for MD simulations are provided. 
 
- -	ions.mdp
-  
- 	Used as input into grompp to generate ions.tpr.
- 
- - 	minim.mdp
- 
- 	Used as input into grompp to generate em.tpr and run energy minimization.
- 
- -	nvt.mdp
- 	
-	nvt ensemble to equilibrate temperature (310.15 K). 	
- 
- -	npt.mdp
- 
- 	npt ensemble to equilibrate pressure (1 bar).
-	 
- -	md.mdp
- 
- 	Run production MD for data collection at temperature and pressure constant.
- 
- -	run.sh
- 	
-	Run all the procedures to perfom MD.
+Files:
+ -	ions.mdp: Used as input into grompp to generate ions.tpr.
+ - 	minim.mdp: Used as input into grompp to generate em.tpr and run energy minimization.
+ -	nvt.mdp: nvt ensemble to equilibrate temperature (310.15 K). 	
+ -	npt.mdp: npt ensemble to equilibrate pressure (1 bar).
+ -	md.mdp: Run production MD for data collection at temperature and pressure constant.
+ -	run.sh: Run all the procedures to perfom MD.
  
  All input and output files are available on Google Drive:
  
