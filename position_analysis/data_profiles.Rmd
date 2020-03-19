@@ -1,0 +1,347 @@
+---
+title: "data_profiles"
+author: "Rydberg"
+date: "25 de febrero de 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load libraries
+
+packages <- c('dplyr', 'caret', 'olsrr', 'car', 'rgl','reshape2','ggplot2','biobroom','tidyr',
+              'dendextend','matrixStats','cluster','gridExtra','grid','lattice')
+for(i in packages){library(package=i,character.only = T)}
+```
+
+## Figure 1
+
+Loading data sets of fluctuations, electrostatic potentials and rmsf. Additionally load kinetic paramters
+
+```{r}
+# Fluctuations dataset
+data_nma <- read.table('fluctuations.csv ', sep=',', header = T, row.names = 1 )/10
+colnames(data_nma) <-1:185
+
+# Electrostatic potentials dataset
+data_ep <- read.table('electrostatic_potentials.csv ', sep=';', header = T, row.names = 1 )
+colnames(data_ep) <-1:185
+
+# RMSF backbone dataset
+data_md_b <- read.table('rmsf_backbone.csv ', sep=';', header = T, row.names = 1 )
+colnames(data_md_b) <-1:185
+
+# RMSF protein dataset
+# data_md_p <- read.table('rmsf_protein.csv ', sep=';', header = T, row.names = 1 )
+# colnames(data_md_p) <-1:185
+
+# RMSF kinetic parameters dataset
+data_k <- read.table('data_kinetics.csv ', sep=';', header = T, row.names = 1 )
+
+```
+
+Transpose each data set and add a variable identifying each position
+
+```{r}
+# Define position variable
+Position <- 1:185
+
+# Transpose fluctuations dataset
+subdata_nma <- as.data.frame(t(data_nma))
+subdata_nma <- cbind(subdata_nma,Position)
+
+# Transpose electrostatic potentials dataset
+subdata_ep <- as.data.frame(t(data_ep))
+subdata_ep <- cbind(subdata_ep,Position)
+
+# Transpose RMSF backbone dataset
+subdata_md_b <- as.data.frame(t(data_md_b))
+subdata_md_b <- cbind(subdata_md_b,Position)
+
+# Transpose RMSF protein dataset
+# subdata_md_p <- as.data.frame(t(data_md_p))
+# subdata_md_p <- cbind(subdata_md_p,Position)
+```
+
+Convert wide to long datasets by gathering the measurements by positions and using the name of the mutation as a key. Exclude position from the gathering to conserve it. 
+
+The final output should be a dataset with three columns, describing the mutation, position, and the measurement of interest.
+
+```{r}
+# Gather fluctuations dataset and convert it to long format
+subdata_nma <- gather(subdata_nma,key='Mutation',value='Fluctuation',-Position)
+
+# Gather electrostatic potentials dataset and convert it to long format
+subdata_ep <- gather(subdata_ep,key='Mutation',value='DEP',-Position)
+
+# Gather RMSF backbone dataset and convert it to long format
+subdata_md_b <- gather(subdata_md_b,key='Mutation',value='RMSF',-Position)
+
+# Gather RMSF protein dataset and convert it to long format
+# subdata_md_p <- gather(subdata_md_p,key='Mutation',value='RMSF',-Position)
+```
+
+Create the ggplots objects
+
+```{r}
+# Define the theme
+theme_plots = theme(axis.text = element_text(size=12), axis.title = element_text(size=10),
+                    legend.text = element_text(size=12),
+                    legend.title = element_text(size=12),
+                    legend.position = 'none',
+                    axis.line = element_line(colour = "black"), 
+                    panel.background = element_blank(), panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank())
+
+# Plot 1: fluctuations
+g1 <- ggplot(subdata_nma,mapping = aes(x=Position,y=Fluctuation,group=Mutation)) + 
+  geom_line(size=0.7, color=alpha('grey',0.7)) + 
+  geom_line(size=0.7, aes(color=Mutation), data=subdata_nma[subdata_nma['Mutation']=='WT',],
+            color = 'red') + theme_plots +
+  scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
+  ylab('Fluctuation (nm)')
+
+# Plot 2: electrostatic potentials
+g2 <- ggplot(subdata_ep,mapping = aes(x=Position,y=DEP,group=Mutation)) + 
+  geom_line(size=0.7, color=alpha('grey',0.7)) + 
+  geom_line(size=0.7, aes(color=Mutation), data=subdata_ep[subdata_ep['Mutation']=='WT',],
+            color = 'red') +
+  theme_plots +
+  scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
+  ylab('Difference in Electrostatic Potential (mV)')
+
+# Plot 3: RMSF backbone
+g3 <- ggplot(subdata_md_b,mapping = aes(x=Position,y=RMSF,group=Mutation)) + 
+  geom_line(size=0.7, color=alpha('grey',0.7)) + 
+  geom_line(size=0.7, aes(color=Mutation),
+            data=subdata_md_b[subdata_md_b['Mutation']=='WT',], color = 'red') +
+  theme_plots +
+  scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
+  ylab('RMSF backbone (nm)')
+
+# # Plot 4: RMSF protein
+# g4 <- ggplot(subdata_md_p,mapping = aes(x=Position,y=RMSF,group=Mutation)) + 
+#   geom_line(size=0.7, color=alpha('grey',0.7)) + 
+#   geom_line(size=0.7, aes(color=Mutation),
+#             data=subdata_md_p[subdata_md_p['Mutation']=='WT',]) +
+#   theme_plots +
+#   scale_x_continuous(breaks=seq(1,185,23), limits = c(1,185)) + 
+#   ylab('RMSF total (nm)')
+```
+
+Save the figures as figure 1
+
+```{r}
+grob <- arrangeGrob(g1, g3, g2)
+ggsave('fig1.tiff',grob,width = 8, height = 10, dpi = 300)
+```
+
+
+## Figure 2
+
+Bind each dataset with the kinetic data
+
+```{r}
+# Bind fluctuation dataset to kcat data
+data_nma_k <- cbind(data_k[1],data_nma)
+# Bind electrostatic potential dataset to kcat data
+data_ep_k <- cbind(data_k[1],data_ep)
+
+# Bind RMSF backbone dataset to kcat data
+data_md_b_k <- cbind(data_k[1],data_md_b)
+
+# Bind RMSF protein dataset to kcat data
+# data_md_p_k <- cbind(data_k[1],data_md_p)
+```
+
+Create a new variable that indicates if relative kcat is greater than 50
+
+```{r}
+# Define a kcat cutoff variable
+kcat_cutoff = 50
+cutoff=as.factor(ifelse(data_k[,1]>=kcat_cutoff, paste('\u2265',kcat_cutoff, sep=''),
+                             paste('< ',kcat_cutoff, sep='')))
+
+# Add the kcat cutoff variable to kinetic fluctuation dataset
+data_nma_g <- mutate(.data=data_nma_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic electrostatic potential dataset
+data_ep_g <- mutate(.data=data_ep_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic RMSF backbone dataset
+data_md_b_g <- mutate(.data=data_md_b_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic RMSF protein dataset
+# data_md_p_g <- mutate(.data=data_md_p_k, Kcat = cutoff)
+```
+
+Defining the function to create the bloxplot of the grouped measurements in the flap region
+
+```{r}
+
+# Inputs:
+# data = dataset
+# i = initial position
+# f = last position
+# d = defines the step in the values between i and f to display in the x axis
+# label = y axis label
+
+plot_aa <- function(data, i=1, f=length(data)-1, d, label){
+  
+  # Subset the data including the first variable and the selected range of variables
+  data <- data[,c(1,(i+1):(f+1))]
+  
+  # Gather the dataset by descriptors 
+  data <- gather(data,key='Position',value='Descriptor',-Kcat,factor_key = T)
+  
+  #Plot
+  ggplot(data,aes(x=Position,y=Descriptor , fill = Kcat)) + stat_boxplot(geom='errorbar') +
+    geom_boxplot(outlier.shape = 21, outlier.size = 2, size=0.2) + 
+    theme(axis.title = element_text(size=12), axis.text = element_text(size=10),
+          legend.text = element_text(size=12), legend.title = element_text(size=12),
+          axis.line = element_line(colour='black'), panel.background = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_x_discrete(breaks=seq(i,f,d)) +
+    scale_fill_discrete(name = bquote('Relative-'~k[cat])) +
+    ylab(label)
+  
+}
+
+```
+
+Boxplot of measurements of interest in the flap region grouped by kcat 
+
+```{r}
+
+# Boxplot for fluctuations
+g1 <- plot_aa(data_nma_g, i=51, f=71, d=1, 'Fluctuations (nm)')
+
+# Boxplot for electrostatic potentials
+g2 <- plot_aa(data_ep_g, i=51, f=71, d=1, 'Difference in Electrostatic Potential (mV)')
+
+# Boxplot for RMSF backbone
+g3 <- plot_aa(data_md_b_g, i=51, f=71, d=1, 'RMSF backbone (nm)')
+
+# Boxplot for RMSF protein
+# g4 <- plot_aa(data_md_p_g, i=1, f=185, d=1, 'RMSF protein (nm)')
+
+```
+
+Save the figures as figure 2
+
+```{r}
+grob <- arrangeGrob(g1,g2,g3)
+ggsave('fig2.tiff',grob,width = 12, height = 18, dpi = 300)
+```
+
+
+## Supplementary figures (COMMENT)
+
+Boxplot for the whole fluctuation profile for each group of PZAses 
+
+```{r}
+# Define a kcat cutoff variable
+kcat_cutoff = 50
+cutoff=as.factor(ifelse(data_k[,1]>=kcat_cutoff, paste('\u2265',kcat_cutoff, sep=''),
+                             paste('< ',kcat_cutoff, sep='')))
+
+L = list(data_nma_k, data_ep_k, data_md_b_k)
+D = list('Fluctuations (nm)', 'Difference in Electrostatic Potentials (mV)', 'RMSF backbone (nm)')
+figs_s = list()
+figs_r = list()
+
+for(i in 1:length(L)){
+  
+  label = D[[i]]
+  dataset = L[[i]]
+  
+  data_L_r <- filter(dataset, Kcat < kcat_cutoff)
+  data_L_r <- mutate(.data=data_L_r,
+                   Kcat= as.factor(ifelse(data_L_r[,1]>=kcat_cutoff,
+                                          paste('\u2265',kcat_cutoff, sep=''), 
+                                          paste('< ',kcat_cutoff, sep=''))))
+  
+  data_L_s <- filter(dataset, Kcat >= kcat_cutoff)
+  data_L_s <- mutate(.data=data_L_s, 
+                     Kcat = as.factor(ifelse(data_L_s[,1]>=kcat_cutoff,
+                                             paste('\u2265',kcat_cutoff, sep=''),
+                                             paste('< ',kcat_cutoff, sep=''))))
+  
+  bp_r <- gather(data_L_r,key='Position',value='Descriptor',-Kcat,factor_key = T)
+  bp_s <- gather(data_L_s ,key='Position',value='Descriptor',-Kcat,factor_key = T)
+  
+  
+  theme_plots = theme(axis.text = element_text(size=18), axis.title = element_text(size=18),
+                    legend.text = element_text(size=12),
+                    legend.title = element_text(size=12),
+                    axis.line = element_line(colour = "black"), 
+                    panel.background = element_blank(), panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank())
+
+  g1 <- ggplot(bp_s,aes(x=Position,y=Descriptor, fill=Kcat)) + 
+    stat_boxplot(geom='errorbar') +
+    geom_boxplot(outlier.shape = 21, fill='#00BFC4', outlier.size=0.8, size = 0.1) +
+    theme_plots + scale_x_discrete(breaks=seq(1,185,23), limits = 1:190) + ylab(label) +
+    ylim(min(dataset[-1]),max(dataset[-1]))
+
+  g2 <- ggplot(bp_r,aes(x=Position,y=Descriptor, fill=Kcat)) +
+    stat_boxplot(geom='errorbar') +
+    geom_boxplot(outlier.shape = 21, fill='#F8766D', outlier.size=0.8, size = 0.1) +
+    theme_plots + scale_x_discrete(breaks=seq(1,185,23), limits = 1:190) +  ylab(label) +
+    ylim(min(dataset[-1]),max(dataset[-1]))
+  
+  figs_s[[i]] <- g1 
+  figs_r[[i]] <- g2
+}
+
+grob <- arrangeGrob(figs_s[[1]], figs_r[[1]], figs_s[[3]], figs_r[[3]], figs_s[[2]], figs_r[[2]])
+ggsave('figsup1.tiff' ,grob,width = 16, height = 17, dpi = 300)
+  
+```
+
+## Statistical tests
+
+```{r, warning=FALSE,message=FALSE, error=FALSE }
+
+PZAse <- c('MRALIIVDVQNDFCEGGSLAVTGGAALARAISDYLAEAADYHHVVATKDFHIDPGDHFSGTPDYSSSWPPHCVSGTPGADFHPSLDTSAIEAVFYKGAYTGAYSGFEGVDENGTPLLNWLRQRGVDEVDVVGIATDHCVRQTAEDAVRNGLATRVLVDLTAGVSADTTVAALEEMRTASVELVCS')
+PZAse <- paste(strsplit(PZAse,'')[[1]],1:185,sep='')
+
+colnames(data_nma_g) <- c('Kcat',paste('x',1:185,sep=''))
+colnames(data_ep_g) <- c('Kcat',paste('x',1:185,sep=''))
+colnames(data_md_b_g) <- c('Kcat',paste('x',1:185,sep=''))
+#colnames(data_md_p_g) <- c('Kcat',paste('x',1:185,sep=''))
+
+L = list(data_nma_g, data_ep_g, data_md_b_g)
+N = list('Test_nma.csv','Test_ep.csv','Test_md_b.csv')
+
+for(n in 1:length(L)){
+  
+  dataset <- L[[n]]
+  dataset[-1] <- dataset[-1]
+  position <- c()
+  p.values <- c()
+  conf.int.lower <- c()
+  conf.int.upper <- c()
+
+  for(i in colnames(dataset[-1])){
+    test <- wilcox.test(as.formula(paste(i,"~Kcat",sep="")),
+                        alternative = 'two.sided',dataset,conf.int=T)
+    position <- c(position,i)
+    conf.int.lower <- c(conf.int.lower,test$conf.int[1])
+    conf.int.upper <- c(conf.int.upper,test$conf.int[2])
+    p.values <- c(p.values,test$p.value)
+  }
+  
+  adj.p.values <- p.adjust(p.values, method ='BH')
+  test.table <-  cbind(position,conf.int.lower,conf.int.upper,p.values,adj.p.values)
+  write.table(test.table,N[[n]],sep=',',quote = F, row.names = F)
+
+  print(c(N[[n]],PZAse[as.numeric(test.table[,'p.values'])<0.05]))
+  print(c(N[[n]],PZAse[as.numeric(test.table[,'adj.p.values'<0.05])],' adjusted'))
+
+}
+
+
+
+```
+
