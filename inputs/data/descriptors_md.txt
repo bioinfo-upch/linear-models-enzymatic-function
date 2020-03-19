@@ -1,4 +1,3 @@
-GDEP
 DEPR Met 1
 DEPR Arg 2
 DEPR Ala 3
