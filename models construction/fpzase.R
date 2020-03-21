@@ -149,7 +149,7 @@ model.construction <- function(data,n,m){
   formula <- as.formula(paste(colnames(data[1]),'~',
                               paste(variables,collapse = '+'),sep=''))
   model <- lm(formula,data)
-  regs <- ols_step_all_possible(model)
+  regs <- ols_step_all_possible(model) # This function will look for a global variable called data, be careful.
   bestmodel <- c()
   index <- 0
   # Select the model among all the combinations of the previously selected variables
