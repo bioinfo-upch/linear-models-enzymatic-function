@@ -18,6 +18,8 @@ The outputs are the following figures:
 
 - Three boxplots of fluctuations, RMSFs, and electrostatic potentials per position along PZAse for structures with a relative k<sub>cat</sub> greater or equal than 50, and other three similar boxplots for structures with a relative k<sub>cat</sub> less than 50.
 
+And CSV files:
+
 - Three CSVs files with the outputs of non parametric tests per position for the mean value of fluctuations, RMSFs, and electrostatic potentials.
 
 # File: distance_analysis.Rmd
