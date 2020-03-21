@@ -92,7 +92,6 @@ residues <- readLines('residues.txt')
 rownames(data) <- residues
 
 #Datasets for the active site
-
 D8 <- data[order(data[1],decreasing = T),]
 D8 <- as.matrix(D8[1])
 D8 <- melt(D8)
@@ -109,7 +108,6 @@ C138 <- melt(C138)
 C138 <- C138[-c(1:165),]
 
 #Datasets for the metal coordination site
-
 D49 <- data[order(data[4],decreasing = T),]
 D49 <- as.matrix(D49[4])
 D49 <- melt(D49)
