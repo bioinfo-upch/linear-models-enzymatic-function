@@ -1,0 +1,211 @@
+---
+title: "distance_analysis"
+author: "Rydberg"
+date: "3 de marzo de 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading packages
+
+```{r}
+packages <- c('dplyr', 'caret', 'olsrr', 'car', 'rgl','reshape2','ggplot2','biobroom','tidyr',
+              'dendextend','matrixStats','cluster','gridExtra','grid','lattice')
+for(i in packages){library(package=i,character.only = T)}
+
+```
+
+## Selected positions
+
+Create a list with the positions associated to selected descriptors for each category (stability, physicochemical, geometrical)
+
+```{r}
+# Load models for activity
+load('../5_statistical_modelling_3pl1wt_log/Activity_models.RData')
+var_act_nm <- names(model.nm$coefficients)[-1]
+var_act_md <- names(model.md$coefficients)[-1]
+var_act_pc <- names(model.pc$coefficients)[-1]
+var_act_gm <- names(model.gm$coefficients)[-1]
+
+# Load models for efficiency
+load('../5_statistical_modelling_3pl1wt_log/Efficiency_models.RData')
+var_eff_nm <- names(model.nm$coefficients)[-1]
+var_eff_md <- names(model.md$coefficients)[-1]
+var_eff_pc <- names(model.pc$coefficients)[-1]
+var_eff_gm <- names(model.gm$coefficients)[-1]
+
+# Load models for Km
+load('../5_statistical_modelling_3pl1wt_log/Km_models.RData')
+var_km_nm <- names(model.nm$coefficients)[-1]
+var_km_md <- names(model.md$coefficients)[-1]
+var_km_pc <- names(model.pc$coefficients)[-1]
+var_km_gm <- names(model.gm$coefficients)[-1]
+
+# Load models for kcat
+load('../5_statistical_modelling_3pl1wt_log/Kcat_models.RData')
+var_kcat_nm <- names(model.nm$coefficients)[-1]
+var_kcat_md <- names(model.md$coefficients)[-1]
+var_kcat_pc <- names(model.pc$coefficients)[-1]
+var_kcat_gm <- names(model.gm$coefficients)[-1]
+
+# Create a vector for each type of selected descriptors to store them
+positions_stability <- c(var_act_md,var_act_nm,var_eff_md,var_eff_nm,var_km_md,var_km_nm,
+                         var_kcat_md,var_kcat_nm)
+positions_physicochemical <- c(var_act_pc,var_eff_pc,var_km_pc,var_kcat_pc)
+positions_geometrical <- c(var_act_gm,var_eff_gm,var_km_gm,var_kcat_gm)
+
+# Extract the positions associated to those descriptors
+positions <- list(positions_stability,positions_physicochemical, positions_geometrical)
+selected_positions <- sapply(positions, FUN = sub, pattern = '.*(?=(...\\s))', replacement = '', perl = T)
+
+```
+
+## Loading distance datasets
+
+```{r}
+#Loading distance data
+data_8 <- read.table('distance_to_aa_8.csv',sep=';',header = T, row.names = 1)[1,]
+rownames(data_8) <- 'D8'
+data_96 <- read.table('distance_to_aa_96.csv', sep = ';', header = T, row.names = 1)[1,]
+rownames(data_96) <- 'K96'
+data_138 <- read.table('distance_to_aa_138.csv', sep=';', header = T, row.names = 1)[1,]
+rownames(data_138) <- 'C138'
+data_49 <- read.table('distance_to_aa_49.csv', sep=';', header = T, row.names = 1)[1,]
+rownames(data_49) <- 'D49'
+data_51 <- read.table('distance_to_aa_51.csv', sep=';', header = T, row.names = 1)[1,]
+rownames(data_51) <- 'H51'
+data_57 <- read.table('distance_to_aa_57.csv', sep=';', header = T, row.names = 1)[1,]
+rownames(data_57) <- 'H57'
+data_71 <- read.table('distance_to_aa_71.csv', sep=';', header = T, row.names = 1)[1,]
+rownames(data_71) <- 'H71'
+
+#Create working data
+data <- rbind(data_8,data_96,data_138,data_49,data_51,data_57,data_71)
+data <- as.data.frame(t(data))
+data <- round(data,2)
+
+#Identify each row in the data according to the residue
+residues <- readLines('residues.txt')
+rownames(data) <- residues
+
+#Datasets for the active site
+
+D8 <- data[order(data[1],decreasing = T),]
+D8 <- as.matrix(D8[1])
+D8 <- melt(D8)
+D8 <- D8[-c(1:165),]
+
+K96 <- data[order(data[2],decreasing = T),]
+K96 <- as.matrix(K96[2])
+K96 <- melt(K96)
+K96 <- K96[-c(1:165),]
+
+C138 <- data[order(data[3],decreasing = T),]
+C138 <- as.matrix(C138[3])
+C138 <- melt(C138)
+C138 <- C138[-c(1:165),]
+
+#Datasets for the metal coordination site
+
+D49 <- data[order(data[4],decreasing = T),]
+D49 <- as.matrix(D49[4])
+D49 <- melt(D49)
+D49 <- D49[-c(1:165),]
+
+H51 <- data[order(data[5],decreasing = T),]
+H51 <- as.matrix(H51[5])
+H51 <- melt(H51)
+H51 <- H51[-c(1:165),]
+
+H57 <- data[order(data[6],decreasing = T),]
+H57 <- as.matrix(H57[6])
+H57 <- melt(H57)
+H57 <- H57[-c(1:165),]
+
+H71 <- data[order(data[7],decreasing = T),]
+H71 <- as.matrix(H71[7])
+H71 <- melt(H71)
+H71 <- H71[-c(1:165),]
+
+```
+
+## Generate the distance plots
+
+```{r}
+
+#Define jet colormap
+jet.colors <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
+
+names <- list('distance_heatmap_stability.tiff','distance_heatmap_physicochemical.tiff', 'distance_heatmap_geometrical.tiff')
+
+title <- list('Distance Matrix: Stability Descriptors',
+              'Distance Matrix: Physicochemical Descriptors',
+              'Distance Matrix: Geometrical Descriptors')
+
+for(descriptor in 1:length(selected_positions)){
+  
+  h <- ifelse(D8[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g1 <- ggplot(D8, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.x = element_blank(), 
+          axis.title.y = element_text(size=30),axis.text = element_text(size=20),
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6) +
+    ylab('Positions')
+  
+  h <- ifelse(K96[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g2 <- ggplot(K96, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.y = element_blank(),
+          axis.title.x=element_blank(), axis.text = element_text(size=20),
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6) 
+
+  h <- ifelse(C138[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g3 <- ggplot(C138, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.y = element_blank(),
+          axis.title.x=element_blank(), axis.text = element_text(size=20), 
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6) 
+  
+  h <- ifelse(D49[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red', no = 'black')
+  g4 <- ggplot(D49, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.y = element_blank(),
+          axis.title.x=element_blank(), axis.text = element_text(size=20), 
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6)
+  
+  h <- ifelse(H51[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g5 <- ggplot(H51, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.y = element_blank(),
+          axis.title.x=element_blank(), axis.text = element_text(size=20),
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6)
+
+  h <- ifelse(H57[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g6 <- ggplot(H57, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(legend.position='none',axis.title.y = element_blank(),
+          axis.title.x=element_blank(), axis.text = element_text(size=20),
+          axis.text.y = element_text(color=h)) + geom_text(aes(label=value), size = 6)
+  
+  h <- ifelse(H71[,'Var1'] %in% selected_positions[[descriptor]],yes = 'red',no = 'black')
+  g7 <- ggplot(H71, aes(x=Var2, y = Var1, fill=value)) + geom_tile() + 
+    scale_fill_gradientn(colors = jet.colors(7), limits = c(0,11)) +
+    theme(axis.title.y = element_blank(),axis.title.x=element_blank(),
+          axis.text = element_text(size=20), axis.text.y = element_text(color=h),
+          legend.text = element_text(size=20),legend.title = element_text(size=25),
+          legend.key.size = unit(1, "cm")) + geom_text(aes(label=value), size = 6) +
+    labs(fill = bquote("Distance ("~ring(A)~')'))
+  
+  #Save the results
+  lay <- rbind(c(1,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,7,7,7,7,7))
+  grob <- arrangeGrob(g1, g2, g3, g4, g5, g6, g7, layout_matrix = lay,
+                      top = textGrob(title[[descriptor]],gp=gpar(fontsize=30,font=3)))
+  ggsave(names[[descriptor]],grob,width = 16, height = 16, dpi = 300)
+  
+}
+
+
+```
