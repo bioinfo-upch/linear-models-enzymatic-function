@@ -20,20 +20,20 @@ The outputs are the following figures:
 
 And CSV files:
 
-- Three CSVs files with the outputs of non parametric tests per position for the mean value of fluctuations, RMSFs, and electrostatic potentials.
+- Three CSVs files with the outputs of non-parametric tests per position for the mean value of fluctuations, RMSFs, and electrostatic potentials.
 
 # File: distance_analysis.Rmd
 
 
-The file distance_matrix_analysis takes nine inputs:
+The file distance_analysis takes twelve inputs:
 
-- Activity_models.RData
+- Activity_models.RData: A set of R objects for the log-linear models for activity
 
-- Efficiency_models.RData
+- Efficiency_models.RData: A set of R objects for the log-linear models for efficiency
 
-- Km_models.RData
+- Km_models.RData: A set of R objects for the log-linear models for K<sub>M</sub>
 
-- Kcat_models.RData
+- Kcat_models.RData: A set of R objects for the log-linear models for k<sub>cat</sub>
 
 - distance_to_aa_8.csv: A CSV file with the distances between alpha-carbons of each amino-acid of each structure and Asp8
 
