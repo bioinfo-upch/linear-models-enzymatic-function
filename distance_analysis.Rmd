@@ -24,28 +24,28 @@ Create a list with the positions associated to selected descriptors for each cat
 
 ```{r}
 # Load models for activity
-load('../5_statistical_modelling_3pl1wt_log/Activity_models.RData')
+load('Activity_models.RData')
 var_act_nm <- names(model.nm$coefficients)[-1]
 var_act_md <- names(model.md$coefficients)[-1]
 var_act_pc <- names(model.pc$coefficients)[-1]
 var_act_gm <- names(model.gm$coefficients)[-1]
 
 # Load models for efficiency
-load('../5_statistical_modelling_3pl1wt_log/Efficiency_models.RData')
+load('Efficiency_models.RData')
 var_eff_nm <- names(model.nm$coefficients)[-1]
 var_eff_md <- names(model.md$coefficients)[-1]
 var_eff_pc <- names(model.pc$coefficients)[-1]
 var_eff_gm <- names(model.gm$coefficients)[-1]
 
 # Load models for Km
-load('../5_statistical_modelling_3pl1wt_log/Km_models.RData')
+load('Km_models.RData')
 var_km_nm <- names(model.nm$coefficients)[-1]
 var_km_md <- names(model.md$coefficients)[-1]
 var_km_pc <- names(model.pc$coefficients)[-1]
 var_km_gm <- names(model.gm$coefficients)[-1]
 
 # Load models for kcat
-load('../5_statistical_modelling_3pl1wt_log/Kcat_models.RData')
+load('Kcat_models.RData')
 var_kcat_nm <- names(model.nm$coefficients)[-1]
 var_kcat_md <- names(model.md$coefficients)[-1]
 var_kcat_pc <- names(model.pc$coefficients)[-1]
