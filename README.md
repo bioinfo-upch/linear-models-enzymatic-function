@@ -51,4 +51,4 @@ The file distance_analysis takes twelve inputs:
 
 - residues.txt: A text file containing the identity of all the residues in PZAse
 
-The output is one figure displaying the 20 nearest residues to each amino-acid of the active site and metal coordination site of wild-type PZAse. Residues associated with selected descriptors are highlighted in blue.
+The output are three figures, one for each kind of descriptors, displaying the 20 nearest residues to each amino-acid of the active site and metal coordination site of wild-type PZAse. Residues associated with selected descriptors are highlighted in red.
