@@ -14,19 +14,19 @@ The file fpzase.R contain all the functions for the statistical analysis
 
 - model.construction: function to actually construct the best predictive model for a given dataset. It calls the staic function to generate a subset of covariables and evaluate all the models for a fixed number of variables between them. The model with the best R<sup>2</sup> is selected.
 
-- random.linear.model
+- random.linear.model: funtion to create random linear models of a fixed number of variables from a dataset.
 
-- plot.model.variables
+- plot.model.variables: function to create a heatmap of the correlation coefficient between the variables of a model.
 
-- gg.intervals
+- gg.intervals: function to plot the confidence intervals for the estimated coefficients of a model.
 
-- plot.scatter.model
+- plot.scatter.model: function to create a scatter plot between the experimental values and the predicted values of a linear model.
 
-- cross.validation
+- cross.validation: function to perform repated n-fold cross-validation of a model.
 
-- cv.rmse.density
+- cv.rmse.density: function to plot the distribution of RMSE generated after repeated n-fold cross validation of a model.
 
-- parameter.name
+- parameter.name: function to add the real name of the variables of a model.
 
 
 # File: models_construction.R
