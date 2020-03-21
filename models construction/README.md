@@ -12,7 +12,7 @@ The file fpzase.R contain all the functions for the statistical analysis
 
 - staic: function to perform a stepwise Akaike Information Criterion forward regression in a given dataset and generate the best model for a fixed number of variables
 
-- model.construction: function to actually construct the best predictive model for a given dataset. It calls the staic function to generate a subset of covariables and evaluate all the models for a fixed number of variables between them. The model with the best R^2 is selected.
+- model.construction: function to actually construct the best predictive model for a given dataset. It calls the staic function to generate a subset of covariables and evaluate all the models for a fixed number of variables between them. The model with the best $R^2$ is selected.
 
 - random.linear.model
 
