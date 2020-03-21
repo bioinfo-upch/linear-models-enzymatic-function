@@ -19,7 +19,7 @@ source('fpzase.R')
 data.k <- read.table('kinetic_parameters.csv', sep=';', header = T, row.names = 1 )
 
 #Data frame with the variance of kinetic parameters
-variances <- read.table('variances.csv', sep=';', header = T, row.names = 1 )
+variances <- read.table('relative_variances.csv', sep=';', header = T, row.names = 1 )
   
 #Calculating the mean and variance of the log transformation
 data.k = log10((data.k^2)/sqrt(variances+data.k^2))
