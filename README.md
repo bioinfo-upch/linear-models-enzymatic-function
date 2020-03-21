@@ -1,4 +1,4 @@
-# File: fluctuation_profiles.R
+# File: position_analysis.Rmd
 
 
 The file fluctuation_profiles.R takes one input:
@@ -16,7 +16,7 @@ The outputs are the following figures:
 - A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant under the median value
 
 
-# File: distance_matrix_analysis.R
+# File: distance_analysis.Rmd
 
 
 The file distance_matrix_analysis takes nine inputs:
