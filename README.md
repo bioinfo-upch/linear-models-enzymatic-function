@@ -16,7 +16,7 @@ The outputs are the following figures:
 
 - Comparison of fluctuations, RMSFs, and electrostatic potentials profiles for all the structures under study, highlighting the WT profiles in red.
 
-- Three boxplots of fluctuations, RMSFs, and electrostatic potentials per position along PZAse for structures with a relative k<sub>cat<\sub> greater  or equal than 50, and other three similar boxplots for structures with a relative kcat less than 50.
+- Three boxplots of fluctuations, RMSFs, and electrostatic potentials per position along PZAse for structures with a relative k<sub>cat</sub> greater  or equal than 50, and other three similar boxplots for structures with a relative k<sub>cat</sub> less than 50.
 
 - A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant under the median value
 
