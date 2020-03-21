@@ -14,11 +14,9 @@ The file fluctuation_profiles.R takes four inputs:
 
 The outputs are the following figures:
 
-- Comparison of fluctuation profiles for two mutated and the wild-type PZAse
+- Comparison of fluctuations, RMSFs, and electrostatic potentials profiles for all the structures under study, highlighting the WT profiles in red.
 
-- A boxplot of fluctuation per position for the flap region of PZAse (His51 - His71). Each position has two boxplots, one for PZAses with catalytic constant under the median value and the other above it
-
-- A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant above the median value
+- Three boxplots of fluctuations, RMSFs, and electrostatic potentials per position along PZAse for structures with a relative k<sub>cat<\sub> greater  or equal than 50, and other three similar boxplots for structures with a relative kcat less than 50.
 
 - A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant under the median value
 
