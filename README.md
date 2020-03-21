@@ -1,12 +1,3 @@
-
-Author: Rydberg Supo Escalante
-
-# File: fpzase.R 
-
-
-The file fpzase.R contain all the functions for the statistical analysis
-
-
 # File: fluctuation_profiles.R
 
 
@@ -23,40 +14,6 @@ The outputs are the following figures:
 - A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant above the median value
 
 - A boxplot of fluctuation per pesition along all the PZAse for enzymes with a catalytic constant under the median value
-
-
-# File: models_construction.R
-
-
-The file models_construction.R takes two inputs:
-
-- finaldataset.csv: A CSV file containing a dataset with the kinetic parameters, and the stability, physicochemical, and geometrical descriptors 
-
-- variables.txt: A text file with the real name of all the variables of the dataset
-
-The outputs are a group of figures for each modeled kinetic parameter. Three of them are for each individual model (stability, physicochemical and geometrical model) that contains:
-
-- A table with a summary of the model
-
-- A table comparing the prediction RMSE and R2 of the model against a random model of the same kind of predictors
-
-- A scatter plot between fitted and experimental values for the model
-
-- A heatmap for the pearson correlation coefficient between the variables of the model
-
-- A plot of the confidence intervals for the coefficients of the variables of the model
-
-- A comparison of the density plots for the RMSE of prediction of the model and a random model of the same kind of predictors
-
-The fourth plot is for a weighted model fitted with the predictions of the individual models that contains:
-
-- A table with a summary of the model
-
-- A table comparing the prediction RMSE and R2 of the weighted model and the individual models
-
-- A scatter plot between fitted and experimental values for the model
-
-- A comparison of the density plots for the RMSE of prediction between the weighted model and the individual models
 
 
 # File: distance_matrix_analysis.R
