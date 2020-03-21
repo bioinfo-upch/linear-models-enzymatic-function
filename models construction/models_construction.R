@@ -1,3 +1,6 @@
+
+# Author: Rydberg Supo Escalante
+
 ########################
 ## Charging libraries ##
 ########################
@@ -22,19 +25,19 @@ variances <- read.table('variances.csv', sep=';', header = T, row.names = 1 )
 data.k = log10((data.k^2)/sqrt(variances+data.k^2))
 variances = sqrt(log10((variances/data.k^2)+1))
 
-#Data frame 1: all the physicochemical parameters
+#Data frame 1: all the physicochemical descriptors
 data.pc <- read.table('electrostatic_potentials.csv', sep=';', header = T, row.names = 1 )
 colnames(data.pc) <- paste('x',1:185,sep='')
 
-#Data frame 1: all the stability NMA parameters
+#Data frame 1: all the stability NMA descriptors
 data.nm <- read.table('fluctuations.csv', sep=',', header = T, row.names = 1 )
 colnames(data.nm) <- paste('x',186:370,sep='')
 
-#Data frame 1: all the stability MD parameters
+#Data frame 1: all the stability MD descriptors
 data.md <- read.table('rmsf_backbone.csv', sep=';', header = T, row.names = 1 )
 colnames(data.md) <- paste('x',4811:4995,sep='')
 
-#Data frame 1: all the geometrical parameters
+#Data frame 1: all the geometrical descriptors
 data.gm <- read.table('geometrical_descriptors.csv', sep=';', header = T, row.names = 1 )
 colnames(data.gm) <- paste('x',371:4810,sep='')
 
@@ -58,7 +61,7 @@ for(k in 1:length(data.k)){
   kinetic_param <- data.frame(data.k[mutants,k])
   colnames(kinetic_param) <- colnames(data.k[k])
   
-  #Data frame 2: DF1 + kinetic parameter of studied - mutants with no data for that kinetic
+  #Data frame 2: DF1 + kinetic parameter - mutants with no data for that kinetic
   # - parameters with missing data or variance equal to 0
   data.nm.k <- filter.pzase(data.frame(kinetic_param,data.nm[mutants,]))
   data.md.k <- filter.pzase(data.frame(kinetic_param,data.md[mutants,]))
@@ -75,13 +78,15 @@ for(k in 1:length(data.k)){
   ################################
   ## Evaluate regression models ##
   ################################
-  dataset = data.nm.cor
+  
+  # Set each Data frame 3 as a global variable before constructing its respective model
+  data = data.nm.cor
   model.nm <- model.construction(data.nm.cor, 10, 6)
-  dataset = data.md.cor
+  data  = data.md.cor
   model.md <- model.construction(data.md.cor, 10, 6)
-  dataset = data.pc.cor
+  data  = data.pc.cor
   model.pc <- model.construction(data.pc.cor, 10, 6)
-  dataset = data.gm.cor
+  data = data.gm.cor
   model.gm <- model.construction(data.gm.cor, 10, 6)
   
   ######################
@@ -244,7 +249,7 @@ for(k in 1:length(data.k)){
   tbl.gm1 <- tableGrob(model.gm.table, theme = ttheme_default(base_size = 10))
   tbl.gm2 <- tableGrob(model.gm.s,theme = ttheme_default(base_size = 10,
                                                          colhead=list(fg_params = list(parse=T))))
-  #Put all plots together and save
+  #Put all plots together and save figures
   lay <- rbind(c(1,1,1,4,4,4,4,2,2,2),
                c(1,1,1,4,4,4,4,2,2,2),
                c(3,3,3,4,4,4,4,2,2,2),
