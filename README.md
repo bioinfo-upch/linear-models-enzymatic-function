@@ -1,18 +1,15 @@
 # File: position_analysis.Rmd
 
 
-The file fluctuation_profiles.R takes one input:
+The file fluctuation_profiles.R takes four inputs:
 
-- finaldataset.csv: A CSV file containing a dataset with the kinetic parameters, and the stability, physicochemical, and geometrical descriptors
+- kinetic_parameters.csv: A CSV file containing the relative experimental means of the kinetic parameters.
 
-kinetic_parameters.csv: A CSV file containing the relative experimental means of the kinetic parameters.
+- electrostatic_potentials.csv: A CSV file containing a dataset with the physicochemical descriptors.
 
-electrostatic_potentials.csv: A CSV file containing a dataset with the physicochemical descriptors.
+- fluctuations.csv: A CSV file containing a dataset with the stability descriptors derived by normal mode analysis.
 
-fluctuations.csv: A CSV file containing a dataset with the stability descriptors derived by normal mode analysis.
-
-rmsf_backbone.csv: A CSV file containing a dataset with the stability descriptors derived by molecular dynamics.
-
+- rmsf_backbone.csv: A CSV file containing a dataset with the stability descriptors derived by molecular dynamics.
 
 
 The outputs are the following figures:
