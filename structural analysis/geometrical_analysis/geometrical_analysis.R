@@ -220,7 +220,7 @@ distance <- function(list1, list2, mutants, variables, name){
   diff <- map2(list1,list2, function(x1,x2){(x2-x1)^2})
   dist <- as.data.frame(pmap_dfc(list(list(diff[[1]]),list(diff[[2]]),list(diff[[3]])),
                                  function(x,y,z){sqrt(x+y+z)}))
-  # Name rows and columbs
+  # Name rows and columns
   rownames(dist) <- mutants
   
   if(length(dist) == 185){
