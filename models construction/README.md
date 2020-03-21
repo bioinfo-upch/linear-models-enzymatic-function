@@ -52,7 +52,7 @@ The outputs are a group of figures for each modeled kinetic parameter. Three of 
 
 - A table with a summary of the model
 
-- A table comparing the prediction RMSE and R2 of the model against a random model of the same kind of predictors
+- A table comparing the prediction RMSE and R<sup>2</sup> of the model against a random model of the same kind of predictors
 
 - A scatter plot between fitted and experimental values for the model
 
@@ -66,7 +66,7 @@ The fourth plot is for a weighted model fitted with the predictions of the indiv
 
 - A table with a summary of the model
 
-- A table comparing the prediction RMSE and R2 of the weighted model and the individual models
+- A table comparing the prediction RMSE and R<sup>2</sup> of the weighted model and the individual models
 
 - A scatter plot between fitted and experimental values for the model
 
