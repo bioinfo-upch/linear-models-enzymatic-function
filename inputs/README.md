@@ -19,3 +19,7 @@
 ## Structures
 
 This folder contains a total of 36 structures, including the wild-type PZAse crystal 3PL1, and 35 SWISS-MODEL modelled structures of punctual mutations of PZAse for which experimental data is available.
+
+## Models
+
+This folder contains the log-linear models for kcat, Km, efficiency and activity. Each file contains six R objects corresponding to the four individual models for stability (NMA), stabiltiy (MD), physicochemical, and geometrical descriptors, and the two weighted models that differ in the nature of the stability model used in their construction.
