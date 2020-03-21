@@ -27,7 +27,7 @@ colnames(data_ep) <-1:185
 # RMSF backbone dataset
 data_md_b <- read.table('rmsf_backbone.csv ', sep=';', header = T, row.names = 1 )
 colnames(data_md_b) <-1:185
-# RMSF kinetic parameters dataset
+# kinetic parameters dataset
 data_k <- read.table('kinetic_parameters.csv ', sep=';', header = T, row.names = 1 )
 ```
 
@@ -104,6 +104,42 @@ ggsave('fig1.tiff',grob,width = 8, height = 10, dpi = 300)
 ```
 
 ## Supplementary figures
+
+Bind each dataset with the kinetic data
+
+```{r}
+# Bind fluctuation dataset to kcat data
+data_nma_k <- cbind(data_k[1],data_nma)
+# Bind electrostatic potential dataset to kcat data
+data_ep_k <- cbind(data_k[1],data_ep)
+
+# Bind RMSF backbone dataset to kcat data
+data_md_b_k <- cbind(data_k[1],data_md_b)
+
+# Bind RMSF protein dataset to kcat data
+# data_md_p_k <- cbind(data_k[1],data_md_p)
+```
+
+Create a new variable that indicates if relative kcat is greater than 50
+
+```{r}
+# Define a kcat cutoff variable
+kcat_cutoff = 50
+cutoff=as.factor(ifelse(data_k[,1]>=kcat_cutoff, paste('\u2265',kcat_cutoff, sep=''),
+                             paste('< ',kcat_cutoff, sep='')))
+
+# Add the kcat cutoff variable to kinetic fluctuation dataset
+data_nma_g <- mutate(.data=data_nma_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic electrostatic potential dataset
+data_ep_g <- mutate(.data=data_ep_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic RMSF backbone dataset
+data_md_b_g <- mutate(.data=data_md_b_k, Kcat = cutoff)
+
+# Add the kcat cutoff variable to kinetic RMSF protein dataset
+# data_md_p_g <- mutate(.data=data_md_p_k, Kcat = cutoff)
+```
 
 Boxplot for the whole fluctuation profile for each group of PZAses 
 
