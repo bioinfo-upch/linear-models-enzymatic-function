@@ -8,11 +8,11 @@ The file fpzase.R contain all the functions for the statistical analysis
 
 - filter.pzase: function to filter columns with missing values or variance equal to zeto.
 
-- correlation.dataset: function to reduce a dataset by ordering variables according to the p-value of simple linear regrressions against a variable of interest
+- correlation.dataset: function to reduce a dataset by sorting ascendingly its covariables according to the p-value of simple linear regressions against a variable of interest. Variables with a correlation coefficent greater than |0.8| are dropped and only the variable with the smallest p-value is conserved.
 
-- staic
+- staic: function to perform a stepwise Akaike Information Criterion forward regression in a given dataset and generate the best model for a fixed number of variables
 
-- model.construction
+- model.construction: function to actually construct the best predictive model for a given dataset. It calls the staic function to generate a subset of covariables and evaluate all the models for a fixed number of variables between them. The model with the best R^2 is selected.
 
 - random.linear.model
 
