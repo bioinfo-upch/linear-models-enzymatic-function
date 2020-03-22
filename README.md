@@ -14,7 +14,7 @@ This folder contains the scripts needed for building log-linear models to predic
 # File: position_analysis.Rmd
 
 
-The file fluctuation_profiles.R takes four inputs:
+The file position_analysis.Rmd takes four inputs:
 
 - kinetic_parameters.csv: A CSV file containing the relative experimental means of the kinetic parameters.
 
@@ -38,7 +38,7 @@ And CSV files:
 # File: distance_analysis.Rmd
 
 
-The file distance_analysis takes twelve inputs:
+The file distance_analysis.Rmd takes twelve inputs:
 
 - Activity_models.RData: A set of R objects for the log-linear models for activity
 
