@@ -1,5 +1,5 @@
 ---
-title: "Profiles and positions analysis"
+title: "Profiles and position analysis"
 author: "Rydberg"
 date: "25 de febrero de 2020"
 output: html_document
