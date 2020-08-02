@@ -69,6 +69,12 @@ Files:
  
 # Physicochemical descriptors
 
+The following parameters were used to calculate electrostatic-potentials:
+- Ɛprotein = 4 
+- Ɛwater = 74.1522 at T = 37°C
+- T = 310.15 Kelvin (37° C)
+
+
 # Geometrical descriptors
 
 Geometrical desriptors are distances (in angstroms) between points the following points of interest including:
